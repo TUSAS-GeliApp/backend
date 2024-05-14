@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
             "DELETE FROM refresh_tokens WHERE token = $1::VARCHAR",
             [refreshToken],
             payload.admin_id,
-            true
+            
           );
           res.status(200).json({ message: "Logged out successfully." });
         } else {
@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
             "DELETE FROM refresh_tokens WHERE token = $1::VARCHAR",
             [refreshToken],
             payload.user_id,
-            false
+            
           );
           res.status(200).json({ message: "Logged out successfully." });
         }
