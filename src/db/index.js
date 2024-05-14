@@ -12,7 +12,7 @@ const pool = new Pool({
 });
 
 module.exports = {
-  async query(text, params, id, admin) {
+  async query(text, params, id) {
     const start = Date.now();
     const res = await pool.query(text, params);
     const duration = Date.now() - start;
