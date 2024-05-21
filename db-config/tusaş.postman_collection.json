@@ -1,0 +1,1385 @@
+{
+	"info": {
+		"_postman_id": "9f6f823b-7d1c-49d6-a641-d7dc7f63f308",
+		"name": "tusaş",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27119886"
+	},
+	"item": [
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "login_user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"melihhmerall@gmail.com\",\n    \"password\": \"Test12\"\n   \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"melihhmeral@gmail.com\",\n    \"password\": \"Test12\"\n   \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ban",
+			"item": [
+				{
+					"name": "ban_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTUwMjQ2OTEsImV4cCI6MTcxNTAyNTU5MX0.A7Xhc7bjlqSizwkvC37OOrKtxW-yzWd78Am5FsfiMhk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ban/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ban",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unban_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTUwMjQ2OTEsImV4cCI6MTcxNTAyNTU5MX0.A7Xhc7bjlqSizwkvC37OOrKtxW-yzWd78Am5FsfiMhk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ban/4/unban",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ban",
+								"4",
+								"unban"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "banned_users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTUwMjU2NzAsImV4cCI6MTcxNTAyNjU3MH0.OszKod8ef_ZYRvsGB1t0bX27tlxyjXdrEg-Cg6yd35k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ban/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ban",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "events",
+			"item": [
+				{
+					"name": "all_events",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/events/all_events",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"all_events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\" :\"melihha@gmail.com\",\n    \"name\" : \"melaaih\",\n    \"image_path\" : \"/Users/macbookpro/Desktop/a\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events/add_event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"add_event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_events",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/events/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\" :\"melihha@gmail.com\",\n    \"name\" : \"melaaih\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events/1/event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"1",
+								"event"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Podcast",
+			"item": [
+				{
+					"name": "all_podcasts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/podcasts/all_podcasts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"podcasts",
+								"all_podcasts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_podcast",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\" :\"Bu bir postmman isteğidir\",\n    \"title\" : \"Podcast_test\",\n    \"file_path\" : \"/Users/macbookpro/Desktop/a\",\n    \"author_name\" :\"Melih meral\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/podcasts/add_podcast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"podcasts",
+								"add_podcast"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_podcast",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/podcasts/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"podcasts",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\" :\"Bu bir postmman update isteğidir\",\n    \"title\" : \"Podcast_test\",\n    \"file_path\" : \"/Users/macbookpro/Desktop/a\",\n    \"author_name\" :\"Melih meral\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/podcasts/1/podcast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"podcasts",
+								"1",
+								"podcast"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "video",
+			"item": [
+				{
+					"name": "all_videos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/videos/all_videos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"videos",
+								"all_videos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_videos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/videos/add_video",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"videos",
+								"add_video"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_video",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/videos/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"videos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Newsletter",
+			"item": [
+				{
+					"name": "update_newsletter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\" :\"Bu bir postmman update isteğidir\",\n    \"title\" : \"Podcast_test\",\n    \"file_path\" : \"/Users/macbookpro/Desktop/a\",\n    \"author_name\" :\"Melih meral\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/newsletters/1/newsletter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters",
+								"1",
+								"newsletter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_newsletter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/newsletters/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_newsletter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\" :\"Bu bir postmman isteğidir\",\n    \"title\" : \"Podcast_test\",\n    \"file_path\" : \"/Users/macbookpro/Desktop/a\",\n    \"author_name\" :\"Melih meral\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/newsletters/add_newsletter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters",
+								"add_newsletter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all_newsletter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/newsletters/all_newsletter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters",
+								"all_newsletter"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Program",
+			"item": [
+				{
+					"name": "update_program",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\" :\"Bu bir postmman update isteğidir\",\n    \"title\" : \"Podcast_test\",\n    \"file_path\" : \"/Users/macbookpro/Desktop/a\",\n    \"author_name\" :\"Melih meral\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/program/1/program",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"program",
+								"1",
+								"program"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_program",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/newsletters/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_program",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\" :\"Bu bir postmman isteğidir\",\n    \"title\" : \"Podcast_test\",\n    \"file_path\" : \"/Users/macbookpro/Desktop/a\",\n    \"author_name\" :\"Melih meral\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/newsletters/add_newsletter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters",
+								"add_newsletter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all_program",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/newsletters/all_newsletter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters",
+								"all_newsletter"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event_apply",
+			"item": [
+				{
+					"name": "apply_event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0OTA3NjgxLCJleHAiOjE3MTQ5MDg1ODF9.iyovM6w8dvX-3pHxtgdPFsMq1zU14Fqh_HrRuQnqOV0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events-apply/1/apply",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events-apply",
+								"1",
+								"apply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "confirm_apply",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTQ5MDk1NzIsImV4cCI6MTcxNDkxMDQ3Mn0.UmoqkXDa1PhkaM6epJCbabedTwvZkCXUH-we3F4ZN_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_id\" : \"1\",\n    \"user_id\" :\"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events-apply/confirm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events-apply",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reject_apply",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTQ5MDg1NzksImV4cCI6MTcxNDkwOTQ3OX0.4zSgTH-_9xPLdxcJkghjPuyANtFrug70Wqg2F-HIxe8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_id\" : \"1\",\n    \"user_id\" :\"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events-apply/reject",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events-apply",
+								"reject"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_event_applies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0OTA5MzQwLCJleHAiOjE3MTQ5MTAyNDB9.XFyE6BUCz-GzxbaTYGmHqBHd2RpLuOXlvjVO4cRSBDw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/events-apply/1/applies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events-apply",
+								"1",
+								"applies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Program_apply",
+			"item": [
+				{
+					"name": "apply_program",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0OTA3NjgxLCJleHAiOjE3MTQ5MDg1ODF9.iyovM6w8dvX-3pHxtgdPFsMq1zU14Fqh_HrRuQnqOV0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events-apply/1/apply",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events-apply",
+								"1",
+								"apply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "confirm_apply",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTQ5MDk1NzIsImV4cCI6MTcxNDkxMDQ3Mn0.UmoqkXDa1PhkaM6epJCbabedTwvZkCXUH-we3F4ZN_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_id\" : \"1\",\n    \"user_id\" :\"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events-apply/confirm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events-apply",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reject_apply",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTQ5MDg1NzksImV4cCI6MTcxNDkwOTQ3OX0.4zSgTH-_9xPLdxcJkghjPuyANtFrug70Wqg2F-HIxe8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_id\" : \"1\",\n    \"user_id\" :\"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events-apply/reject",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events-apply",
+								"reject"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_program_applies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0OTA5MzQwLCJleHAiOjE3MTQ5MTAyNDB9.XFyE6BUCz-GzxbaTYGmHqBHd2RpLuOXlvjVO4cRSBDw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/events-apply/1/applies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events-apply",
+								"1",
+								"applies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "all_users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE1MDIyNTEyLCJleHAiOjE3MTUwMjM0MTJ9.vxLRb7AyEWLhXciUrCnoYLHVioq4pkk0NZ_bGv8BDP8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/lists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"lists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "info_for_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE1MDIyNTEyLCJleHAiOjE3MTUwMjM0MTJ9.vxLRb7AyEWLhXciUrCnoYLHVioq4pkk0NZ_bGv8BDP8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/all_list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"all_list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE1MDIzODgxLCJleHAiOjE3MTUwMjQ3ODF9.2zKaLEA_dr_fPepWYFHhAyjV8r2bxHKh9iEQE6XOuNE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user_info_4admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTUwMjI4MTQsImV4cCI6MTcxNTAyMzcxNH0.K1uXbqmdBr7d-2dd_n021BKcaJy8bLreTLQY213TV6o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_user_4admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTUwMjI4MTQsImV4cCI6MTcxNTAyMzcxNH0.K1uXbqmdBr7d-2dd_n021BKcaJy8bLreTLQY213TV6o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"name\": \"melih\",\n      \"surname\": \"meral\",\n      \"email\" : \"melihmaeraaafaflaa2001@hotmail.com\",\n      \"password\":\"Zorsifre\",\n      \"phone\":\"05355108923\",\n      \"job\":\"dolandırıcı\",\n      \"is_banned\": false,\n      \"is_tusas\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTUwMjI4MTQsImV4cCI6MTcxNTAyMzcxNH0.K1uXbqmdBr7d-2dd_n021BKcaJy8bLreTLQY213TV6o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"name\": \"melih\",\n      \"surname\": \"meral\",\n      \"email\" : \"melihmaeraaafaflaa2001@hotmail.com\",\n      \"password\":\"Zorsifre\",\n      \"phone\":\"05355108923\",\n      \"job\":\"dolandırıcı\",\n      \"is_banned\": false,\n      \"is_tusas\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset_password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"otpCode\" :\"3692\",\n    \"email\" : \"melihhmerall@gmail.com\",\n    \"newPassword\" : \"Test12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "request-password-reset",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" :\"melihhmerall@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/request-password-reset",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"request-password-reset"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
