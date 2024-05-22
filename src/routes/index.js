@@ -10,7 +10,7 @@ const program = require("./program");
 const programApply = require("./programApply");
 const ban = require("./ban");
 const admin = require("./admin");
-
+const calender = require("./calender");
 module.exports = (app) => {
   app.use("/users", users);
   app.use("/login", login);
@@ -24,4 +24,5 @@ module.exports = (app) => {
   app.use("/program", program);
   app.use("/ban", ban);
   app.use("/admin", admin);
+  app.use("/calender", calender);
 };

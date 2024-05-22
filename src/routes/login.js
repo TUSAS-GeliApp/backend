@@ -74,9 +74,9 @@ router.post("/", async (req, res) => {
             }
 
             const isPasswordMatched = await bcrypt.compare(
-              password,
-              userInfo.password
-            );
+                password,
+                userInfo.password
+              );
            
             if (isPasswordMatched) {
               // User information matches
@@ -120,7 +120,8 @@ router.post("/", async (req, res) => {
           }
     
       
-    }} catch (err) {
+    }
+} catch (err) {
       console.error(err);
       res.status(500).json({ error: "An error occurred while loging." });
     }
@@ -193,3 +194,70 @@ router.post("/", async (req, res) => {
         .json({ message: "An error occurred while refreshing access token" });
     }
   });
+  
+//sign up  
+router.post("/sign_up", async (req, res) => {
+    const {
+        name,
+        surname,
+        email,
+        password,
+        phone,
+        job,
+    } = req.body;
+    try {
+        const { rows } = await db.query(
+            "SELECT 1 FROM users WHERE email = $1",
+            [email]
+          );
+         
+    
+          if (rows[0]) {
+            res.status(409).json({
+              error: `The users with the email is already exists`,
+            });
+          }
+          else{
+           
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            const { rows } = await db.query(
+                "INSERT INTO users(name, surname, email, password,  phone, job) values($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR)",
+                [
+                  name,
+                  surname,
+                  email,
+                  hashedPassword,
+                  phone,
+                  job,
+                ],
+              );
+              const accesToken = jwt.sign(
+                {
+                  email: email,
+                  logged_in: true,
+                },
+                process.env.ACCES_TOKEN_SECRET,
+                { expiresIn: "15min" }
+              );
+      
+              const refreshToken = jwt.sign(
+                {  email: email},
+                process.env.REFRESH_TOKEN_SECRET,
+                { expiresIn: "30d" }
+              );
+              res
+              .status(200)
+              .json({ accesToken: accesToken, refreshToken: refreshToken });
+
+          }
+
+    }
+
+        catch (e) {
+            console.log(e);
+            res
+              .status(500)
+              .json({ message: "An error occurred while refreshing access token" });
+          }
+        });

@@ -1,103 +1,11 @@
 --
--- PostgreSQL database cluster dump
---
-
--- Started on 2024-05-22 00:08:51 +03
-
-SET default_transaction_read_only = off;
-
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-
---
--- Roles
---
-
-CREATE ROLE postgres;
-ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:q9phlZGG4C4/EcL9EOG+Mg==$hP+FyUDYPjrUEiWF6XfBiaDbSyEEd8Qk29iJp+8j8+Q=:2QDwvcPGOnojVseDxtPhWY/m71qGZxKIB0oxudG1HXA=';
-
---
--- User Configurations
---
-
-
-
-
-
-
-
-
---
--- Databases
---
-
---
--- Database "template1" dump
---
-
-\connect template1
-
---
 -- PostgreSQL database dump
 --
 
 -- Dumped from database version 16.2
 -- Dumped by pg_dump version 16.2
 
--- Started on 2024-05-22 00:08:51 +03
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
--- Completed on 2024-05-22 00:08:51 +03
-
---
--- PostgreSQL database dump complete
---
-
---
--- Database "Tusas-Geliapp" dump
---
-
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 16.2
--- Dumped by pg_dump version 16.2
-
--- Started on 2024-05-22 00:08:51 +03
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- TOC entry 3693 (class 1262 OID 16398)
--- Name: Tusas-Geliapp; Type: DATABASE; Schema: -; Owner: postgres
---
-
-CREATE DATABASE "Tusas-Geliapp" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'C';
-
-
-ALTER DATABASE "Tusas-Geliapp" OWNER TO postgres;
-
-\connect -reuse-previous=on "dbname='Tusas-Geliapp'"
+-- Started on 2024-05-22 22:50:59 +03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -172,6 +80,34 @@ CREATE TABLE public.apply_program (
 ALTER TABLE public.apply_program OWNER TO postgres;
 
 --
+-- TOC entry 238 (class 1259 OID 49254)
+-- Name: calender_event; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.calender_event (
+    event_id integer,
+    name character varying,
+    date character varying
+);
+
+
+ALTER TABLE public.calender_event OWNER TO postgres;
+
+--
+-- TOC entry 237 (class 1259 OID 49239)
+-- Name: calender_program; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.calender_program (
+    program_id integer,
+    name character varying,
+    date character varying
+);
+
+
+ALTER TABLE public.calender_program OWNER TO postgres;
+
+--
 -- TOC entry 231 (class 1259 OID 49179)
 -- Name: event_user; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -193,7 +129,10 @@ CREATE TABLE public.events (
     event_id integer NOT NULL,
     name character varying,
     content character varying,
-    image_path character varying
+    image_path character varying,
+    event_date character varying,
+    location character varying,
+    event_link character varying
 );
 
 
@@ -223,7 +162,8 @@ CREATE TABLE public.newsletters (
     newsletter_id integer NOT NULL,
     author_name character varying,
     content character varying,
-    title character varying
+    title character varying,
+    thumbnail_path character varying
 );
 
 
@@ -266,9 +206,10 @@ ALTER TABLE public.otpcode OWNER TO postgres;
 CREATE TABLE public.podcasts (
     podcast_id integer NOT NULL,
     author_name character varying,
-    file_path character varying,
+    podcast_link character varying,
     title character varying,
-    content character varying
+    content character varying,
+    cover_image_path character varying
 );
 
 
@@ -298,7 +239,11 @@ CREATE TABLE public.program (
     program_id integer NOT NULL,
     name character varying(255),
     content character varying(255),
-    image_path character varying(255)
+    image_path character varying(255),
+    program_date character varying,
+    location character varying,
+    program_link character varying,
+    sss character varying
 );
 
 
@@ -318,6 +263,19 @@ ALTER TABLE public.program ALTER COLUMN program_id ADD GENERATED ALWAYS AS IDENT
     CACHE 1
 );
 
+
+--
+-- TOC entry 236 (class 1259 OID 49226)
+-- Name: program_speaker; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.program_speaker (
+    program_id integer,
+    user_id integer
+);
+
+
+ALTER TABLE public.program_speaker OWNER TO postgres;
 
 --
 -- TOC entry 235 (class 1259 OID 49213)
@@ -378,7 +336,12 @@ CREATE TABLE public.users (
     photo character varying(255),
     photo_type character varying,
     is_tusas boolean,
-    phone character varying(255)
+    phone character varying(255),
+    location character varying,
+    instagram character varying,
+    twitter character varying,
+    linkedin character varying,
+    facebook character varying
 );
 
 
@@ -429,7 +392,7 @@ ALTER TABLE public.videos ALTER COLUMN videos_id ADD GENERATED ALWAYS AS IDENTIT
 
 
 --
--- TOC entry 3671 (class 0 OID 40969)
+-- TOC entry 3687 (class 0 OID 40969)
 -- Dependencies: 219
 -- Data for Name: admin; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -440,7 +403,7 @@ COPY public.admin (admin_id, email, password, name, surname) FROM stdin;
 
 
 --
--- TOC entry 3682 (class 0 OID 49166)
+-- TOC entry 3698 (class 0 OID 49166)
 -- Dependencies: 230
 -- Data for Name: apply_event; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -450,7 +413,7 @@ COPY public.apply_event (event_id, user_id) FROM stdin;
 
 
 --
--- TOC entry 3686 (class 0 OID 49200)
+-- TOC entry 3702 (class 0 OID 49200)
 -- Dependencies: 234
 -- Data for Name: apply_program; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -461,7 +424,31 @@ COPY public.apply_program (program_id, user_id) FROM stdin;
 
 
 --
--- TOC entry 3683 (class 0 OID 49179)
+-- TOC entry 3706 (class 0 OID 49254)
+-- Dependencies: 238
+-- Data for Name: calender_event; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.calender_event (event_id, name, date) FROM stdin;
+1	test	21.01.2001
+1	tesat	21.01.2001
+\.
+
+
+--
+-- TOC entry 3705 (class 0 OID 49239)
+-- Dependencies: 237
+-- Data for Name: calender_program; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.calender_program (program_id, name, date) FROM stdin;
+1	test	21.01.2001
+1	tesat	21.01.2001
+\.
+
+
+--
+-- TOC entry 3699 (class 0 OID 49179)
 -- Dependencies: 231
 -- Data for Name: event_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -473,31 +460,34 @@ COPY public.event_user (event_id, user_id) FROM stdin;
 
 
 --
--- TOC entry 3673 (class 0 OID 40983)
+-- TOC entry 3689 (class 0 OID 40983)
 -- Dependencies: 221
 -- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.events (event_id, name, content, image_path) FROM stdin;
-1	melafdgsfadjnlkaaih	melihha@gmail.com	/Users/macbookpro/Desktop/a
+COPY public.events (event_id, name, content, image_path, event_date, location, event_link) FROM stdin;
+4	kakakaaka	melihha@gmail.com	/Users/macbookpro/Desktop/a	21.01.2001	kalbim	selamlar aşko
+1	melafdgsfadjnlkaaih	melihha@gmail.com	/Users/macbookpro/Desktop/a	21.01.2001	kalbim	selamlar aşko
 \.
 
 
 --
--- TOC entry 3677 (class 0 OID 40999)
+-- TOC entry 3693 (class 0 OID 40999)
 -- Dependencies: 225
 -- Data for Name: newsletters; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.newsletters (newsletter_id, author_name, content, title) FROM stdin;
-4	Melih meral	Bu bir postmman isteğidir	Newsletter_test
-5	Melih meral	Bu bir postmman isteğidir	Newsaaaletter_test
-6	Melih meral	Bu bir postmman isteğidir	Newsaaaafletter_test
+COPY public.newsletters (newsletter_id, author_name, content, title, thumbnail_path) FROM stdin;
+4	Melih meral	Bu bir postmman isteğidir	Newsletter_test	\N
+5	Melih meral	Bu bir postmman isteğidir	Newsaaaletter_test	\N
+6	Melih meral	Bu bir postmman isteğidir	Newsaaaafletter_test	\N
+7	Melih meral	Bu bir postmman update isteğidir2aa	Podcast_test	\N
+9	Melih meral	Bu bir postmman update isteğidir2aa	Podcast_test	klsgjıslgjpsjgpsg
 \.
 
 
 --
--- TOC entry 3669 (class 0 OID 32768)
+-- TOC entry 3685 (class 0 OID 32768)
 -- Dependencies: 217
 -- Data for Name: otpcode; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -507,29 +497,47 @@ COPY public.otpcode (user_id, expiresat, otp) FROM stdin;
 
 
 --
--- TOC entry 3675 (class 0 OID 40991)
+-- TOC entry 3691 (class 0 OID 40991)
 -- Dependencies: 223
 -- Data for Name: podcasts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.podcasts (podcast_id, author_name, file_path, title, content) FROM stdin;
-1	Melih meral	/Users/macbookpro/Desktop/a	Podcast_test	Bu bir postmman update isteğidir
+COPY public.podcasts (podcast_id, author_name, podcast_link, title, content, cover_image_path) FROM stdin;
+3	Melih meral	/Users/macbookpro/Desktop/a	a	Bu bir postmman isteğidir	cover_image_path
+1	Melih meral	/Users/macbookpro/Desktop/a	Podcast_test	Bu bir postmman update isteğidir	cover_image_path
 \.
 
 
 --
--- TOC entry 3685 (class 0 OID 49193)
+-- TOC entry 3701 (class 0 OID 49193)
 -- Dependencies: 233
 -- Data for Name: program; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.program (program_id, name, content, image_path) FROM stdin;
-1	Podcast_test	Bu bir postmman update isteğidir	/Users/macbookpro/Desktop/a
+COPY public.program (program_id, name, content, image_path, program_date, location, program_link, sss) FROM stdin;
+4	\N	Bu bir postmman isteğidir	/Users/macbookpro/Desktop/a	21.01.2001	kalbim	kaç dakka olmuş hala link yok	kaç cm
+1	Podcast_test	Bu bir postmman update isteğidir	/Users/macbookpro/Desktop/a	21.01.2001	kalbim	kaç dakka olmuş hala link yok	kaç cm
+3	Podcast_test	Bu bir postmman update isteğidir	/Users/macbookpro/Desktop/a	21.01.2001	kalbim	kaç dakka olmuş hala link yok	kaç km
 \.
 
 
 --
--- TOC entry 3687 (class 0 OID 49213)
+-- TOC entry 3704 (class 0 OID 49226)
+-- Dependencies: 236
+-- Data for Name: program_speaker; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.program_speaker (program_id, user_id) FROM stdin;
+1	\N
+\N	2
+1	3
+1	2
+1	4
+\.
+
+
+--
+-- TOC entry 3703 (class 0 OID 49213)
 -- Dependencies: 235
 -- Data for Name: program_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -540,7 +548,7 @@ COPY public.program_user (program_id, user_id) FROM stdin;
 
 
 --
--- TOC entry 3681 (class 0 OID 49153)
+-- TOC entry 3697 (class 0 OID 49153)
 -- Dependencies: 229
 -- Data for Name: refresh_tokens; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -568,27 +576,44 @@ COPY public.refresh_tokens (id, token, expires_at, admin) FROM stdin;
 24	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNzE1MDI0MDE2LCJleHAiOjE3MTc2MTYwMTZ9.uzsUwYY3OTXwZTbs7q76iOzJEIHOcvh0-BX-SyNrw9s	2024-06-05 22:33:36.968+03	t
 25	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNzE1MDI0NjkxLCJleHAiOjE3MTc2MTY2OTF9.e1cenx-CLlHyX4SKEk0YZGcVExf6ieM-IEfh1zAPDzM	2024-06-05 22:44:51.764+03	t
 26	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNzE1MDI1NjcwLCJleHAiOjE3MTc2MTc2NzB9.4GSEZ7rfNb0VM9kBXauR9ZDBcsdIr_AsFK3oNK2_GiI	2024-06-05 23:01:10.029+03	t
+27	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNzE2Mzk1OTAxLCJleHAiOjE3MTg5ODc5MDF9.PMRSFDoVyBNnonkMfnQr-wZrjYUsKUl_ElA-MQogxao	2024-06-21 19:38:21.146+03	t
+28	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJpYXQiOjE3MTYzOTYyNjUsImV4cCI6MTcxODk4ODI2NX0.C_xJYRoCdoSScj_JECIQn1LN88Io4an3vY-SfU9EN80	2024-06-21 19:44:25.092+03	f
+29	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJpYXQiOjE3MTYzOTgxODEsImV4cCI6MTcxODk5MDE4MX0.4OkFEtBAyVTsvpPZMQWftOl0tm1pe_3OOcrLbmfc-ao	2024-06-21 20:16:21.346+03	f
+30	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNzE2Mzk4Mjk3LCJleHAiOjE3MTg5OTAyOTd9.zaZ2u6NC0JnoUfVLXrFKLARccAjBjvv16M1HlVoN8cs	2024-06-21 20:18:17.544+03	t
+31	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNzE2NDAwNzAzLCJleHAiOjE3MTg5OTI3MDN9.8EEvaG5FLqqd4dIURMAW4z5nflCs4rOOWYdqvXOP1VQ	2024-06-21 20:58:23.116+03	t
+32	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJpYXQiOjE3MTY0MDA3ODgsImV4cCI6MTcxODk5Mjc4OH0.nb_zn95tWA6hb082jjtZkwJ-K-cyaQZIpr6Ol-5ODtg	2024-06-21 20:59:48.591+03	f
+33	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJpYXQiOjE3MTY0MDA5MTQsImV4cCI6MTcxODk5MjkxNH0._7mN0dtwXqTE_tyxt44cBDPGaItKi44t6CwAfZwdLlU	2024-06-21 21:01:54.727+03	f
+34	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNzE2NDAyMTMzLCJleHAiOjE3MTg5OTQxMzN9.LrlictBAHaLGEhNZytbOkpRiUrGluTi7RcOHvvLcZWQ	2024-06-21 21:22:13.763+03	t
+35	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJpYXQiOjE3MTY0MDIxODQsImV4cCI6MTcxODk5NDE4NH0.XPUCqvPgl9holZ9aJPjjh289cK_8kjuY0CBk0xe9YKw	2024-06-21 21:23:04.16+03	f
+36	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJpYXQiOjE3MTY0MDYzNDcsImV4cCI6MTcxODk5ODM0N30.dIO7hZbnIlyNE3hkMhIMiQBPfbiuu2ikdkRbMg2vXNs	2024-06-21 22:32:27.086+03	f
 \.
 
 
 --
--- TOC entry 3668 (class 0 OID 24591)
+-- TOC entry 3684 (class 0 OID 24591)
 -- Dependencies: 216
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (user_id, is_banned, name, surname, email, password, job, photo, photo_type, is_tusas, phone) FROM stdin;
-9	f	melih	meral	melihmaeraaafaflaa2001@hotmail.com	$2b$10$Q/lgbnI3Fr.uWGNVkR.w4eEFzbURZ0J78riUXxF.cfadGggOhrm8.	dolandırıcı	\N	\N	f	05355108923
-12	f	melih	meral	melihhmerall@gmail.com	\N	dolandırıcı	\N	\N	\N	05355108923
-13	f	melih	meral	melihhmerall@gmail.com	\N	dolandırıcı	\N	\N	\N	05355108923
-3	t	a	a	melmer@gmail.com	a	\N	\N	\N	\N	\N
-4	f	melih	meral	melihmeral2001@hotmail.com	$2b$10$YJDwvMrl1Tfg7y40.ruJ1.8h5KaJKgOMd8b1X.qx.P1THnDosyYvS	dolandırıcı	\N	\N	f	05355108923
-2	f	melih	meral	melihhmerall@gmail.com	$2b$10$CQHTbEKjtpxL.q9lAOhC9.8AwJmxmr2lmFYMY6O7Nqtuerh8zyqZO	dolandırıcı	sa	jpg	t	05355108923
+COPY public.users (user_id, is_banned, name, surname, email, password, job, photo, photo_type, is_tusas, phone, location, instagram, twitter, linkedin, facebook) FROM stdin;
+9	f	melih	meral	melihmaeraaafaflaa2001@hotmail.com	$2b$10$Q/lgbnI3Fr.uWGNVkR.w4eEFzbURZ0J78riUXxF.cfadGggOhrm8.	dolandırıcı	\N	\N	f	05355108923	\N	\N	\N	\N	\N
+13	f	melih	meral	melihhmerall@gmail.com	\N	dolandırıcı	\N	\N	\N	05355108923	\N	\N	\N	\N	\N
+3	t	a	a	melmer@gmail.com	a	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+4	f	melih	meral	melihmeral2001@hotmail.com	$2b$10$YJDwvMrl1Tfg7y40.ruJ1.8h5KaJKgOMd8b1X.qx.P1THnDosyYvS	dolandırıcı	\N	\N	f	05355108923	\N	\N	\N	\N	\N
+12	f	melih	meral	melihhmerall@gmail.com	$2b$10$kplen98npE715j31ffLWeewZDgzK4Nh9XVeV3YMj/LdBpB/RxLC.6	dolandırıcı	\N	\N	\N	05355108923	\N	\N	\N	\N	\N
+14	f	melih	meral	melafaihmaeraaafaflaa2001@hotmail.com	$2b$10$2jYbDE66lbRoJhzggtNoeeKKCKREbr12QielwZLXzrnyY3ELMUsqK	dolandırıcı	\N	\N	f	05355108923	kalbim	elon musk	onun adı X artık	tusas	angaralım-06
+15	\N	melih	meral	melihhmeaarall@gmail.com	$2b$10$nvimAbSqAXJjPoF.Uaj5Y.2ZB1f9asJNhZr1OWTR64k0YKpUJkbze	amele	\N	\N	\N	05355108923	\N	\N	\N	\N	\N
+16	\N	melih	meral	melihhmafafeaarall@gmail.com	$2b$10$VyHLudo6jdLx.46kZd72Y.v47o715dxb8t.sPwI6XA8gTpqODR3Ly	amele	\N	\N	\N	05355108923	\N	\N	\N	\N	\N
+17	\N	melih	meral	aaa@gmail.com	$2b$10$r7YuIxSfSd/3TyeZuJ4efeaHm.L2oHtr6ZnQhOzsjFfzfvDsw1PBK	amele	\N	\N	\N	05355108923	\N	\N	\N	\N	\N
+18	\N	melih	meral	aadaa@gmail.com	$2b$10$Ukvd6f0Q2zj6WeS12zEfrOpr/zNuL3jJ6ZUXMtRIGtmdP9LFuqoqm	amele	\N	\N	\N	05355108923	\N	\N	\N	\N	\N
+19	\N	melih	meral	aaaaaa@gmail.com	$2b$10$7hXtDWdPu8qURY/cm50MgeifysKDoGsrJ6sQtELhsg6viX66Qma0O	amele	\N	\N	\N	05355108923	\N	\N	\N	\N	\N
+20	\N	melih	meral	aafaaaa@gmail.com	$2b$10$g0r4SxQn3H715BjHAzW84.OqoW.RQOgEJy2TLHngYGIJ.EzkSyiku	amele	\N	\N	\N	05355108923	\N	\N	\N	\N	\N
+2	f	melih	meral	melihhmeralla@gmail.com	$2b$10$CQHTbEKjtpxL.q9lAOhC9.8AwJmxmr2lmFYMY6O7Nqtuerh8zyqZO	dolandırıcı	sa	jpg	t	05355108923	kalbim	elon musk	onun adı X artık	tusas	angaralım-06
 \.
 
 
 --
--- TOC entry 3679 (class 0 OID 41007)
+-- TOC entry 3695 (class 0 OID 41007)
 -- Dependencies: 227
 -- Data for Name: videos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -600,7 +625,7 @@ COPY public.videos (videos_id, title, videos_path) FROM stdin;
 
 
 --
--- TOC entry 3694 (class 0 OID 0)
+-- TOC entry 3712 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: admin_admin_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -609,61 +634,61 @@ SELECT pg_catalog.setval('public.admin_admin_id_seq', 1, true);
 
 
 --
--- TOC entry 3695 (class 0 OID 0)
+-- TOC entry 3713 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: events_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.events_event_id_seq', 3, true);
+SELECT pg_catalog.setval('public.events_event_id_seq', 4, true);
 
 
 --
--- TOC entry 3696 (class 0 OID 0)
+-- TOC entry 3714 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: newsletter_newsletter_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.newsletter_newsletter_id_seq', 6, true);
+SELECT pg_catalog.setval('public.newsletter_newsletter_id_seq', 10, true);
 
 
 --
--- TOC entry 3697 (class 0 OID 0)
+-- TOC entry 3715 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: podcast_podcast_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.podcast_podcast_id_seq', 2, true);
+SELECT pg_catalog.setval('public.podcast_podcast_id_seq', 3, true);
 
 
 --
--- TOC entry 3698 (class 0 OID 0)
+-- TOC entry 3716 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: program_program_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.program_program_id_seq', 2, true);
+SELECT pg_catalog.setval('public.program_program_id_seq', 4, true);
 
 
 --
--- TOC entry 3699 (class 0 OID 0)
+-- TOC entry 3717 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: refresh_token_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.refresh_token_id_seq', 26, true);
+SELECT pg_catalog.setval('public.refresh_token_id_seq', 36, true);
 
 
 --
--- TOC entry 3700 (class 0 OID 0)
+-- TOC entry 3718 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 13, true);
+SELECT pg_catalog.setval('public.users_user_id_seq', 20, true);
 
 
 --
--- TOC entry 3701 (class 0 OID 0)
+-- TOC entry 3719 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: videos_videos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -672,7 +697,7 @@ SELECT pg_catalog.setval('public.videos_videos_id_seq', 4, true);
 
 
 --
--- TOC entry 3503 (class 2606 OID 40975)
+-- TOC entry 3515 (class 2606 OID 40975)
 -- Name: admin admin_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -681,7 +706,7 @@ ALTER TABLE ONLY public.admin
 
 
 --
--- TOC entry 3505 (class 2606 OID 40989)
+-- TOC entry 3517 (class 2606 OID 40989)
 -- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -690,7 +715,7 @@ ALTER TABLE ONLY public.events
 
 
 --
--- TOC entry 3509 (class 2606 OID 41005)
+-- TOC entry 3521 (class 2606 OID 41005)
 -- Name: newsletters newsletter_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -699,7 +724,7 @@ ALTER TABLE ONLY public.newsletters
 
 
 --
--- TOC entry 3501 (class 2606 OID 32772)
+-- TOC entry 3513 (class 2606 OID 32772)
 -- Name: otpcode otpcode_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -708,7 +733,7 @@ ALTER TABLE ONLY public.otpcode
 
 
 --
--- TOC entry 3507 (class 2606 OID 40997)
+-- TOC entry 3519 (class 2606 OID 40997)
 -- Name: podcasts podcast_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -717,7 +742,7 @@ ALTER TABLE ONLY public.podcasts
 
 
 --
--- TOC entry 3515 (class 2606 OID 49199)
+-- TOC entry 3527 (class 2606 OID 49199)
 -- Name: program program_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -726,7 +751,7 @@ ALTER TABLE ONLY public.program
 
 
 --
--- TOC entry 3513 (class 2606 OID 49159)
+-- TOC entry 3525 (class 2606 OID 49159)
 -- Name: refresh_tokens refresh_token_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -735,7 +760,7 @@ ALTER TABLE ONLY public.refresh_tokens
 
 
 --
--- TOC entry 3499 (class 2606 OID 24597)
+-- TOC entry 3511 (class 2606 OID 24597)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -744,7 +769,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 3511 (class 2606 OID 41013)
+-- TOC entry 3523 (class 2606 OID 41013)
 -- Name: videos videos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -753,7 +778,7 @@ ALTER TABLE ONLY public.videos
 
 
 --
--- TOC entry 3516 (class 2606 OID 49169)
+-- TOC entry 3528 (class 2606 OID 49169)
 -- Name: apply_event event_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -762,7 +787,7 @@ ALTER TABLE ONLY public.apply_event
 
 
 --
--- TOC entry 3518 (class 2606 OID 49182)
+-- TOC entry 3530 (class 2606 OID 49182)
 -- Name: event_user event_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -771,7 +796,16 @@ ALTER TABLE ONLY public.event_user
 
 
 --
--- TOC entry 3520 (class 2606 OID 49203)
+-- TOC entry 3539 (class 2606 OID 49259)
+-- Name: calender_event event_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.calender_event
+    ADD CONSTRAINT event_id FOREIGN KEY (event_id) REFERENCES public.events(event_id);
+
+
+--
+-- TOC entry 3532 (class 2606 OID 49203)
 -- Name: apply_program program_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -780,7 +814,7 @@ ALTER TABLE ONLY public.apply_program
 
 
 --
--- TOC entry 3522 (class 2606 OID 49216)
+-- TOC entry 3534 (class 2606 OID 49216)
 -- Name: program_user program_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -789,7 +823,25 @@ ALTER TABLE ONLY public.program_user
 
 
 --
--- TOC entry 3517 (class 2606 OID 49174)
+-- TOC entry 3536 (class 2606 OID 49229)
+-- Name: program_speaker program_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.program_speaker
+    ADD CONSTRAINT program_id FOREIGN KEY (program_id) REFERENCES public.program(program_id);
+
+
+--
+-- TOC entry 3538 (class 2606 OID 49249)
+-- Name: calender_program program_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.calender_program
+    ADD CONSTRAINT program_id FOREIGN KEY (program_id) REFERENCES public.program(program_id);
+
+
+--
+-- TOC entry 3529 (class 2606 OID 49174)
 -- Name: apply_event user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -798,7 +850,7 @@ ALTER TABLE ONLY public.apply_event
 
 
 --
--- TOC entry 3519 (class 2606 OID 49187)
+-- TOC entry 3531 (class 2606 OID 49187)
 -- Name: event_user user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -807,7 +859,7 @@ ALTER TABLE ONLY public.event_user
 
 
 --
--- TOC entry 3521 (class 2606 OID 49208)
+-- TOC entry 3533 (class 2606 OID 49208)
 -- Name: apply_program user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -816,7 +868,7 @@ ALTER TABLE ONLY public.apply_program
 
 
 --
--- TOC entry 3523 (class 2606 OID 49221)
+-- TOC entry 3535 (class 2606 OID 49221)
 -- Name: program_user user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -824,64 +876,18 @@ ALTER TABLE ONLY public.program_user
     ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES public.users(user_id);
 
 
--- Completed on 2024-05-22 00:08:52 +03
+--
+-- TOC entry 3537 (class 2606 OID 49234)
+-- Name: program_speaker user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.program_speaker
+    ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES public.users(user_id);
+
+
+-- Completed on 2024-05-22 22:50:59 +03
 
 --
 -- PostgreSQL database dump complete
---
-
---
--- Database "postgres" dump
---
-
-\connect postgres
-
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 16.2
--- Dumped by pg_dump version 16.2
-
--- Started on 2024-05-22 00:08:52 +03
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- TOC entry 2 (class 3079 OID 16384)
--- Name: adminpack; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
-
-
---
--- TOC entry 3587 (class 0 OID 0)
--- Dependencies: 2
--- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
-
-
--- Completed on 2024-05-22 00:08:52 +03
-
---
--- PostgreSQL database dump complete
---
-
--- Completed on 2024-05-22 00:08:52 +03
-
---
--- PostgreSQL database cluster dump complete
 --
 

@@ -16,7 +16,7 @@ module.exports = router;
 
 
 // apply program for user
-router.post("/:id/apply", authMiddleware, async (req, res) => {
+router.post("/:id/apply", adminAuthMiddleware, async (req, res) => {
     const { id } = req.params;
     const { user_id } = req.tokenPayload;
    
@@ -51,14 +51,6 @@ router.post("/:id/apply", authMiddleware, async (req, res) => {
               .json({ error: "An error occurred while applying the program." });
           };
       }
-  });
-
-
-  // Get all applies for spesific program
-router.get("/:program_id/applies", authMiddleware, async (req, res) => {
-    const { program_id } = req.params;
-    const { rows } = await db.query("SELECT * FROM apply_program WHERE program_id = $1",[program_id]);
-    res.status(200).json(rows);
   });
 
 

@@ -22,7 +22,7 @@ router.get("/all_podcasts", authMiddleware, async (req, res) => {
 
 // Add new podcast admin olcak
 router.post("/add_podcast", adminAuthMiddleware, async (req, res) => {
-    const { content, title , file_path , author_name} = req.body;
+    const { content, title , podcast_link , author_name,cover_image_path} = req.body;
     try{
       const { rows } = await db.query(
         "SELECT 1 FROM podcasts WHERE title = $1",
@@ -38,8 +38,8 @@ router.post("/add_podcast", adminAuthMiddleware, async (req, res) => {
         
 
         await db.query(
-          "Insert  into  podcasts(content, title , file_path , author_name) values($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR)",
-          [content, title , file_path , author_name],
+          "Insert  into  podcasts(content, title , podcast_link , author_name,cover_image_path) values($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR)",
+          [content, title , podcast_link , author_name,cover_image_path],
           req.tokenPayload.admin_id,
           true
         );
@@ -85,7 +85,8 @@ router.post("/add_podcast", adminAuthMiddleware, async (req, res) => {
     const { id } = req.params;
     const { title } = req.body;
     const { content } = req.body;
-    const {file_path} =req.body;
+    const {podcast_link} =req.body;
+    const {cover_image_path} =req.body;
     const {author_name} = req.body;
     const { admin_id } = req.tokenPayload;
     if (admin_id === undefined) {
@@ -93,8 +94,8 @@ router.post("/add_podcast", adminAuthMiddleware, async (req, res) => {
     }
     try {
       await db.query(
-        "UPDATE podcasts SET title = ($1::VARCHAR), content= ($2::VARCHAR),file_path = ($3::VARCHAR),author_name = ($4::VARCHAR) WHERE podcast_id = ($5::INTEGER);",
-        [title, content ,file_path , author_name, id,],
+        "UPDATE podcasts SET title = ($1::VARCHAR), content= ($2::VARCHAR),podcast_link = ($3::VARCHAR),author_name = ($4::VARCHAR),cover_image_path = ($5::VARCHAR) WHERE podcast_id = ($6::INTEGER);",
+        [title, content ,podcast_link , author_name,cover_image_path, id],
         admin_id,
         false
       );

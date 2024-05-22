@@ -16,7 +16,35 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"melihhmerall@gmail.com\",\n    \"password\": \"Test12\"\n   \n}",
+							"raw": "{\n    \"email\": \"melihhmeaarall@gmail.com\",\n    \"password\": \"Testaaa12\"\n   \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SİGN_UP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"melihhmeaarall@gmail.com\",\n    \"password\": \"Testaaa12\"\n   \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -182,7 +210,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJsb2dnZWRfaW4iOnRydWUsImlhdCI6MTcxNjM5NjI2NSwiZXhwIjoxNzE2Mzk3MTY1fQ.BCHu3X0bs8Xa-n9FrLsthJRTeVB4-CpeA6S3gZvA1lQ",
 									"type": "string"
 								}
 							]
@@ -418,14 +446,14 @@
 					"response": []
 				},
 				{
-					"name": "update_event",
+					"name": "update_podcast",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImxvZ2dlZF9pbiI6dHJ1ZSwiaWF0IjoxNzE0NjczNzA1LCJleHAiOjE3MTQ2NzczMDV9.tVl7QdCfwX0c7bbzakK-lziH9IDWDZXJqAmRUDfzbuU",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTY0MDA3MDMsImV4cCI6MTcxNjQwMTYwM30.yzyJ8nH1NqeuywVQo4-T8sQ3jFK02Tv7FYPrFeDVOyQ",
 									"type": "string"
 								}
 							]
@@ -706,6 +734,46 @@
 								"program",
 								"1",
 								"program"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "program_spekar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTY0MDIxMzMsImV4cCI6MTcxNjQwMzAzM30.bxwdWRqHNn7bZaTHMnTTEn7gISzX7xpNIb6ZhQvPmLs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"program_id\" : \"2\",\n    \"user_id\" :\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/program/1/speaker",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"program",
+								"1",
+								"speaker"
 							]
 						}
 					},
@@ -1374,6 +1442,175 @@
 							"path": [
 								"users",
 								"request-password-reset"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Calender",
+			"item": [
+				{
+					"name": "Add_program_calender",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/calender/1/program",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"calender",
+								"1",
+								"program"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add_event_calender",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/calender/1/program",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"calender",
+								"1",
+								"program"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_program_calender",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJsb2dnZWRfaW4iOnRydWUsImlhdCI6MTcxNjQwNjM0NywiZXhwIjoxNzE2NDA3MjQ3fQ.H9Y5_zwux8Khpy6jl7cXCtK0Nhs55m4zhoYMTnNiY9Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/calender/1/program",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"calender",
+								"1",
+								"program"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_event_calender",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJsb2dnZWRfaW4iOnRydWUsImlhdCI6MTcxNjQwNjM0NywiZXhwIjoxNzE2NDA3MjQ3fQ.H9Y5_zwux8Khpy6jl7cXCtK0Nhs55m4zhoYMTnNiY9Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/calender/1/event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"calender",
+								"1",
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_program",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJsb2dnZWRfaW4iOnRydWUsImlhdCI6MTcxNjQwNjM0NywiZXhwIjoxNzE2NDA3MjQ3fQ.H9Y5_zwux8Khpy6jl7cXCtK0Nhs55m4zhoYMTnNiY9Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/calender/all_program",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"calender",
+								"all_program"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJsb2dnZWRfaW4iOnRydWUsImlhdCI6MTcxNjQwNjM0NywiZXhwIjoxNzE2NDA3MjQ3fQ.H9Y5_zwux8Khpy6jl7cXCtK0Nhs55m4zhoYMTnNiY9Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/calender/all_program",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"calender",
+								"all_program"
 							]
 						}
 					},
