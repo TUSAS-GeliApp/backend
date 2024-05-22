@@ -22,7 +22,7 @@ router.get("/all_newsletters", authMiddleware, async (req, res) => {
 
 // Add new newsletter
 router.post("/add_newsletter", adminAuthMiddleware, async (req, res) => {
-    const { content, title , author_name} = req.body;
+    const { content, title , author_name,thumbnail_path} = req.body;
     try{
       const { rows } = await db.query(
         "SELECT 1 FROM newsletters WHERE title = $1",
@@ -38,8 +38,8 @@ router.post("/add_newsletter", adminAuthMiddleware, async (req, res) => {
         
 
         await db.query(
-          "Insert  into  newsletters(content, title , author_name) values($1::VARCHAR, $2::VARCHAR, $3::VARCHAR)",
-          [content, title  , author_name],
+          "Insert  into  newsletters(content, title , author_name, thumbnail_path) values($1::VARCHAR, $2::VARCHAR, $3::VARCHAR $4::VARCHAR)",
+          [content, title  , author_name, thumbnail_path],
           req.tokenPayload.admin_id,
           true
         );
@@ -88,14 +88,15 @@ router.post("/add_newsletter", adminAuthMiddleware, async (req, res) => {
     const { title } = req.body;
     const { content } = req.body;
     const {author_name} = req.body;
+    const{thumbnail_path} =req.body;
     const { admin_id } = req.tokenPayload;
     if (admin_id === undefined) {
       return res.status(404).json({ message: "Invalid Token" });
     }
     try {
       await db.query(
-        "UPDATE newsletters SET title = ($1::VARCHAR), content= ($2::VARCHAR),author_name = ($3::VARCHAR) WHERE newsletter_id = ($4::INTEGER);",
-        [title, content , author_name, id,],
+        "UPDATE newsletters SET title = ($1::VARCHAR), content= ($2::VARCHAR),author_name = ($3::VARCHAR),thumbnail_path = ($4::VARCHAR) WHERE newsletter_id = ($5::INTEGER);",
+        [title, content , author_name, thumbnail_path,id],
         admin_id,
         false
       );

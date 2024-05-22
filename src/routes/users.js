@@ -14,25 +14,6 @@ module.exports = router;
 
 
 
-//router.post("/test", async (req, res) => {
-//    try{
-//        const email = "melihhmerall@gmail.com"  
-//        const subject = "test";
-//        const text = "test";
-//        sendEmail(email, text, subject, res);
-//        res.status(200).json({
-//            message: " Mail was sent successfully to given email.",
-//        });  
-//    } 
-//    catch (err) {
-//        console.error(err);
-//        res
-//          .status(500)
-//          .json({ message: "An error occurred." });
-//      }
-//});
-
-
 // Get all users list
 router.get("/lists", authMiddleware, async (req, res) => {
     const { rows } = await db.query(
@@ -191,6 +172,11 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
       job,
       is_banned,
       is_tusas,
+      location,
+      instagram,
+      twitter,
+      linkedin,
+      facebook,
       
     } = req.body;
     try {
@@ -209,7 +195,7 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
         const { rows } = await db.query(
-          "INSERT INTO users(name, surname, email, password,  phone, job, is_banned,  is_tusas) values($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::BOOLEAN, $8::BOOLEAN)",
+          "INSERT INTO users(name, surname, email, password,  phone, job, is_banned,  is_tusas, location, instagram,twitter,linkedin,facebook) values($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::BOOLEAN, $8::BOOLEAN, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR, $12::VARCHAR, $13::VARCHAR)",
           [
             name,
             surname,
@@ -219,7 +205,12 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
             job,
             is_banned,
             is_tusas,
-         
+            location,
+            instagram,
+            twitter,
+            linkedin,
+            facebook,
+
           ],
           admin_id,
           true
@@ -239,21 +230,21 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
   // Update user information
   router.patch("/", authMiddleware, async (req, res) => {
     const { user_id } = req.tokenPayload;
-    const { name, surname, email, job, phone } =
+    const { name, surname, email, job, phone , location, instagram,twitter,linkedin,facebook} =
       req.body;
     if (user_id === undefined) {
       return res.status(403).json({ message: "Invalid Token" });
     }
     try {
       await db.query(
-        "UPDATE users SET name = ($1::VARCHAR), surname= ($2::VARCHAR),email= ($3::VARCHAR),job= ($4::VARCHAR),phone= ($5::VARCHAR) WHERE user_id = ($6::INTEGER)",
+        "UPDATE users SET name = ($1::VARCHAR), surname= ($2::VARCHAR),email= ($3::VARCHAR),job= ($4::VARCHAR),phone= ($5::VARCHAR),location= ($6::VARCHAR),instagram= ($7::VARCHAR),twitter= ($8::VARCHAR),linkedin= ($9::VARCHAR),facebook= ($10::VARCHAR) WHERE user_id = ($11::INTEGER)",
         [
             name, 
             surname, 
             email, 
             job, 
             phone,
-            user_id
+            location, instagram,twitter,linkedin,facebook, user_id,
         ],
         user_id,
         false

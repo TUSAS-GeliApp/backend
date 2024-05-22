@@ -56,7 +56,7 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
 });
 
 // Update admin information
-router.patch("/", adminAndLoggedAuthMiddleware, async (req, res) => {
+router.patch("/", adminAuthMiddleware, async (req, res) => {
   const { admin_id } = req.tokenPayload;
   const { name, surname, email } = req.body;
   try {
