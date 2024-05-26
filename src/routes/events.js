@@ -20,6 +20,51 @@ router.get("/all_events", authMiddleware, async (req, res) => {
     res.status(200).json(rows);
   });
 
+
+
+// Tum etkinlikler
+router.get("/tum_etkinlikler", authMiddleware, async (req, res) => {
+  try {
+    const { rows: events } = await db.query(
+      "SELECT e.event_id, e.name AS event_name, e.Content AS event_content, e.event_date, e.image_path, e.location AS konum, e.event_link FROM events AS e ORDER BY e.event_id",
+      []
+    );
+
+    const formattedEvents = [];
+
+    for (const event of events) {
+      const participantsQuery = await db.query(
+        "SELECT DISTINCT u.user_id, u.name, u.surname, u.job, u.instagram, u.twitter, u.linkedin, u.facebook FROM users AS u INNER JOIN event_user AS eu ON u.user_id = eu.user_id WHERE eu.event_id = $1",
+        [event.event_id]
+      );
+
+      const participants = participantsQuery.rows.map(user => ({
+        id: user.user_id,
+        name: user.name,
+        surname: user.surname,
+        info: [user.job, user.instagram, user.twitter, user.linkedin, user.facebook].join(", ")
+      }));
+
+      formattedEvents.push({
+        id: event.event_id,
+        event_name: event.event_name,
+        event_content: event.event_content,
+        event_date: event.event_date,
+        imageUri: event.image_path,
+        konum: event.konum,
+        link: event.event_link,
+        katilimcilar: participants
+      });
+    }
+
+    res.status(200).json(formattedEvents);
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 // Add new event 
 router.post("/add_event", adminAuthMiddleware, async (req, res) => {
     const { content, name ,image_path,event_date,location , event_link } = req.body;

@@ -20,6 +20,27 @@ router.get("/all_program", authMiddleware, async (req, res) => {
     res.status(200).json(rows);
   });
 
+// Tüm program konuşmacılarını al
+router.get("/all_program_speaker", authMiddleware, async (req, res) => {
+  const { rows } = await db.query(`
+    SELECT u.user_id AS id, CONCAT(u.name, ' ', u.surname) AS name, u.job AS info, u.photo AS link
+    FROM program_speaker p
+    JOIN users u ON p.user_id = u.user_id
+  `);
+  res.status(200).json(rows);
+});
+
+// Tüm program kullanıcılarını al
+router.get("/all_program_user", authMiddleware, async (req, res) => {
+  const { rows } = await db.query(`
+    SELECT u.user_id AS id, CONCAT(u.name, ' ', u.surname) AS name, u.job AS info, u.photo AS pp_link, CONCAT(u.instagram, ' ', u.twitter, ' ', u.linkedin, ' ', u.facebook) AS socials
+    FROM program_user p
+    JOIN users u ON p.user_id = u.user_id
+  `);
+  res.status(200).json(rows);
+});
+
+
 // Add new program 
 router.post("/add_program", adminAuthMiddleware, async (req, res) => {
     const { content, name , image_path,program_date,location,program_link,sss } = req.body;

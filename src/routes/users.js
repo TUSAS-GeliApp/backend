@@ -23,18 +23,84 @@ router.get("/lists", authMiddleware, async (req, res) => {
     res.status(200).json(rows);
   });
 
+
+
+
   //get user info
   router.get("/user", authMiddleware, async (req, res) => {
     const { user_id } = req.tokenPayload;
     if (user_id === undefined) {
       return res.status(403).json({ message: "Invalid token" });
     }
-    const { rows } = await db.query(
-      "SELECT * FROM users WHERE user_id = $1",
-      [user_id]
-    );
-    res.status(200).json(rows[0]);
+  
+    try {
+      const { rows } = await db.query(
+        `SELECT 
+          u.*,
+          e.event_id,
+          e.name AS event_name,
+          p.program_id,
+          p.name AS program_name
+        FROM 
+          users u
+        LEFT JOIN 
+          event_user eu ON u.user_id = eu.user_id
+        LEFT JOIN 
+          events e ON eu.event_id = e.event_id
+        LEFT JOIN 
+          program_user pu ON u.user_id = pu.user_id
+        LEFT JOIN 
+          program p ON pu.program_id = p.program_id
+        WHERE 
+          u.user_id = $1`,
+        [user_id]
+      );
+  
+      if (rows.length === 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      // Kullanıcı bilgileri
+      const userInfo = {
+        id: rows[0].user_id,
+        name: rows[0].name,
+        surname: rows[0].surname,
+        location: rows[0].location,
+        photo: rows[0].photo 
+      };
+  
+      // Katılım bilgileri
+      const participationInfo = rows.map(row => ({
+        id: row.event_id || row.program_id, // event_id veya program_id olabilir
+        title: row.event_name || row.program_name // event_name veya program_name olabilir
+      }));
+  
+      // İletişim bilgileri
+      const contactInfo = {
+        job: rows[0].job,
+        phone: rows[0].phone,
+        email: rows[0].email,
+        instagram: rows[0].instagram,
+        twitter: rows[0].twitter,
+        facebook: rows[0].facebook,
+        linkedin: rows[0].linkedin
+      };
+  
+      // Sonuç nesnesini oluştur
+      const result = {
+        bilgiler: [userInfo],
+        katilim: participationInfo,
+        iletisim_bilgileri: [contactInfo]
+      };
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
   });
+  
+  
 
 //request password reset - otpcode
 router.post("/request-password-reset", async (req, res) => {
@@ -255,6 +321,26 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
       res
         .status(500)
         .json({ error: "An error occurred while updating the user." });
+    }
+  });
+   // Update user profile picture link
+   router.patch("/pp", authMiddleware, async (req, res) => {
+    const { user_id } = req.tokenPayload;
+    const { photo } = req.body;
+    if (user_id === undefined) {
+      return res.status(403).json({ message: "Invalid Token" });
+    }
+    try {
+      await db.query(
+        "UPDATE users SET photo = ($1::VARCHAR) WHERE user_id = ($2::INTEGER)",
+        [photo, user_id]
+      );
+      res.status(200).json({ result: "Profile Picture updated successfully." });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ error: "An error occurred while updating the Profile Picture link." });
     }
   });
   
