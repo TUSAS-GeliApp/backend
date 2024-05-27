@@ -10,6 +10,7 @@ const ban = require("./ban");
 const admin = require("./admin");
 const calender = require("./calender");
 const notifications = require("./notification");
+const image = require('./image');
 
 module.exports = (app) => {
   app.use("/users", users);
@@ -24,4 +25,5 @@ module.exports = (app) => {
   app.use("/admin", admin);
   app.use("/calender", calender);
   app.use("/notifications", notifications);
+  app.use("/image", image);
 };
