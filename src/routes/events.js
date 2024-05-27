@@ -102,3 +102,69 @@ router.post("/add_event", adminAuthMiddleware, async (req, res) => {
       };
     }
   });
+
+ // add user to event
+ router.post("/event_user", adminAuthMiddleware, async (req, res) => {
+    const { user_id } = req.body;
+    const { event_id } = req.body;
+   try{
+    const { rows } = await db.query(
+    "SELECT * FROM event_user WHERE event_id = $1 and user_id = $2 ",
+    [event_id , user_id]
+  );
+
+  if (rows[0]) {
+    res.status(409).json({
+      error: `You already add this user to this event`,
+    });
+  } else{  
+      await db.query(
+        "Insert  into  event_user(user_id, event_id) values($1::INTEGER, $2::INTEGER)",
+        [user_id, event_id],
+      )
+        res
+        .status(200)
+        .json("You applied this event succesfully.");
+  
+}
+    }
+    catch{
+        (err) => {
+            console.error(err);
+            res
+                .status(500)
+                .json({ error: "An error occurred while adding the event." });
+      };
+}
+});
+
+//delete user to event
+router.delete("/:id/user", adminAuthMiddleware, async (req, res) => {
+    const { id } = req.params;
+    const { user_id } = req.body;
+    console.log(1);
+    try{
+        const { rows } = await db.query(
+            "SELECT * FROM event_user WHERE event_id = $1 and user_id = $2 ",
+            [id , user_id]
+          );
+          if (rows[0]) {
+            await db.query(
+                "DELETE FROM event_user WHERE event_id = $1 and user_id = $2 ",
+                [id , user_id]
+              );
+              res
+                  .status(409)
+                  .json({ error: "Successfully deleted user." })
+        
+        }
+    }
+    catch{
+        (err) => {
+            console.error(err);
+            res
+              .status(500)
+              .json({ error: "An error occurred while adding the event." });
+          };
+    }
+});

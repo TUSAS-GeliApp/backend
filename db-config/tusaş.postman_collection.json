@@ -38,6 +38,34 @@
 					"response": []
 				},
 				{
+					"name": "login_user Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"melihhmeaarall@gmail.com\",\n    \"password\": \"Testaaa12\"\n   \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "SİGN_UP",
 					"request": {
 						"method": "POST",
@@ -96,8 +124,38 @@
 				{
 					"name": "logout",
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTQ4MTAwMzEsImV4cCI6MTcxNDgxMDkzMX0.fWzCATZPGpdubs_CXZhrT0VjOZ8PGsv2ARWsx190KW0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTcxNDkwMzY5OCwiZXhwIjoxNzE3NDk1Njk4fQ.rIHWUaVvubHjdskUdSjWGKJO-SUJmwLwQUHoIZ7q0hg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"logout"
+							]
+						}
 					},
 					"response": []
 				}
@@ -272,6 +330,45 @@
 					"response": []
 				},
 				{
+					"name": "add_user_to_event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTY3MjU4ODksImV4cCI6MTcxNjcyNjc4OX0.25b7_-mNbC3lPOdHCeX8JHpVEvAaAOTt_7kZ5elUcDk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_id\" : \"1\",\n    \"user_id\": \"4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events/event_user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"event_user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "delete_events",
 					"request": {
 						"auth": {
@@ -336,6 +433,46 @@
 								"events",
 								"1",
 								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_user_to_event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTY3Mjc0NDEsImV4cCI6MTcxNjcyODM0MX0.7x0mtX_9n3qrH1I38aXGPo8z5ySp8KABRCxAU-t6kvc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_id\" : \"1\",\n    \"user_id\": \"3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events/1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"1",
+								"user"
 							]
 						}
 					},
@@ -734,6 +871,85 @@
 								"program",
 								"1",
 								"program"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_user_to_event Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTY3MjU4ODksImV4cCI6MTcxNjcyNjc4OX0.25b7_-mNbC3lPOdHCeX8JHpVEvAaAOTt_7kZ5elUcDk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_id\" : \"1\",\n    \"user_id\": \"4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events/event_user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"event_user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_user_to_event Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZW1haWwiOiJtZWxpaGhtZXJhbEBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwibG9nZ2VkX2luIjp0cnVlLCJpYXQiOjE3MTY3Mjc0NDEsImV4cCI6MTcxNjcyODM0MX0.7x0mtX_9n3qrH1I38aXGPo8z5ySp8KABRCxAU-t6kvc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_id\" : \"1\",\n    \"user_id\": \"3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/events/1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"1",
+								"user"
 							]
 						}
 					},
@@ -1533,15 +1749,24 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJsb2dnZWRfaW4iOnRydWUsImlhdCI6MTcxNjQwNjM0NywiZXhwIjoxNzE2NDA3MjQ3fQ.H9Y5_zwux8Khpy6jl7cXCtK0Nhs55m4zhoYMTnNiY9Q",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im1lbGloaG1lcmFsbGFAZ21haWwuY29tIiwiYWRtaW4iOmZhbHNlLCJsb2dnZWRfaW4iOnRydWUsImlhdCI6MTcxNjc2MTAyNCwiZXhwIjoxNzE2NzYxOTI0fQ.cOfciXAOOzbQJ7OB_TVzjSYn3tRmH6Lt80zPQ1J8Ixg",
 									"type": "string"
 								}
 							]
 						},
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event_id\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8080/calender/1/event",
+							"raw": "http://localhost:8080/calender/event",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1549,7 +1774,6 @@
 							"port": "8080",
 							"path": [
 								"calender",
-								"1",
 								"event"
 							]
 						}
