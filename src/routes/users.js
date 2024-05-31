@@ -2,14 +2,23 @@ const Router = require("express-promise-router");
 const bcrypt = require("bcrypt");
 const db = require("../db");
 const router = new Router();
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const express = require('express');
+const createUploadFunction  = require('../image');
+const createdownloadFunction = require('../image');
+const deleteFile = require('../image');
+
 const MAX_LISTS = 20;
 const {
   adminAuthMiddleware,
   authMiddleware,
 } = require("../Middleware/security/authMiddlware");
 const { uploadPP } = require("../Middleware/upload/uploadMiddleware");
-const fs = require("fs");
+
 const { sendEmail } = require("../Middleware/mail/sendMail");
+const { diskStorage } = require("multer");
 module.exports = router;
 
 
@@ -168,7 +177,6 @@ router.post("/reset-password", async (req, res) => {
           const { otp, expiresat } = otpResult[0];
           const isOTPMatched = await bcrypt.compare(otpCode.toString(), otp);
           if (isOTPMatched) {
-            console.log(4);
             if (expiresat > Date.now()) {
               const hashedPassword = await bcrypt.hash(newPassword, 10);
               await db.query(
@@ -233,7 +241,6 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
       name,
       surname,
       email,
-      password,
       phone,
       job,
       is_banned,
@@ -259,6 +266,14 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
           error: "User already exists.",
         });
       } else {
+        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=';
+        let password = '';
+        const length = 12;
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * charset.length);
+          password += charset[randomIndex];
+        }
+        console.log(password);
         const hashedPassword = await bcrypt.hash(password, 10);
         const { rows } = await db.query(
           "INSERT INTO users(name, surname, email, password,  phone, job, is_banned,  is_tusas, location, instagram,twitter,linkedin,facebook) values($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::BOOLEAN, $8::BOOLEAN, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR, $12::VARCHAR, $13::VARCHAR)",
@@ -281,9 +296,15 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
           admin_id,
           true
         );
-        
+        console.log(name)
+
+        const subject = "Tusas password";
+        const text = `<p>Hi <b>${name}</b>! The admin added you the best app in the world .</p>
+
+        <p>your password is ${password}.</p>`;
+        sendEmail(email, text, subject, res);
+      
         res.status(200).json({  message: "The user added succesfully." });
-        console.log(1);
       }
     } catch (err) {
       console.error(err);
@@ -323,27 +344,92 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
         .json({ error: "An error occurred while updating the user." });
     }
   });
+
+
    // Update user profile picture link
-   router.patch("/pp", authMiddleware, async (req, res) => {
+   router.patch("/pp/:folderName", authMiddleware, async (req,res) => {
+    const { email } = req.tokenPayload;
     const { user_id } = req.tokenPayload;
-    const { photo } = req.body;
-    if (user_id === undefined) {
-      return res.status(403).json({ message: "Invalid Token" });
-    }
-    try {
-      await db.query(
-        "UPDATE users SET photo = ($1::VARCHAR) WHERE user_id = ($2::INTEGER)",
-        [photo, user_id]
-      );
-      res.status(200).json({ result: "Profile Picture updated successfully." });
+    const { folderName} = req.params;
+    const testingme = createUploadFunction(folderName,email)
+    const upload = multer({ storage: testingme });
+    try{
+    // Fotoğraf yükleme fonksiyonu
+        const uploadSingle = upload.single('image');
+        uploadSingle(req, res, (err) => {
+            if (err) {
+                return res.status(500).send(err.message);
+            }
+            if (!req.file) {
+                return res.status(400).send('No file uploaded.');
+            }
+            
+        });
+        const for_db = "images" + "/" + folderName + "/" + email  ;
+        
+                await db.query(
+                    "UPDATE users SET photo = ($1::VARCHAR) ,photo_type = ($2::VARCHAR)   WHERE user_id = ($3::INTEGER) ;",
+                    [for_db,"jpg",user_id],
+                  );res.send(`File uploaded successfully: ${req.file.filename}`);
     } catch (err) {
-      console.error(err);
-      res
+        console.error(err);
+        res
         .status(500)
-        .json({ error: "An error occurred while updating the Profile Picture link." });
+        .json({ error: "An error occurred while updating the user." });
     }
+    });
+
+
+//delete pp
+router.delete("/pp", authMiddleware, async (req, res) => {
+        const { user_id } = req.tokenPayload;
+        const { email } = req.tokenPayload;
+        
+
+        const emptyPhoto = "/images/emptyPhotos/emptyPp.png"
+        try{
+            
+            await db.query(
+                "UPDATE users SET photo = ($1::VARCHAR)   WHERE user_id = ($2::INTEGER) ;",
+                [emptyPhoto,user_id],
+               
+              );res.send(`Photo deleted successfully`);
+
+              deleteFile("users", email);
+        } catch (err) {
+            console.error(err);
+            res
+            .status(500)
+            .json({ error: "An error occurred while updating the user." });
+        }
+    });
+
+
+//get pp
+router.get('/photo/:filename',authMiddleware,async (req, res) => {
+    const filename = req.params.filename;
+    const { email } = req.tokenPayload;
+    const { user_id } = req.tokenPayload;
+    const { rows } = await db.query(
+        "SELECT photo_type FROM users Where user_id = $1",
+        [user_id]
+      );   
+
+   
+    const jsonString = JSON.stringify(rows);
+
+    photo_type = jsonString.split(":")[1].split("\"")[1];
+    const aaa = email + "."+photo_type ;
+    const imagePath = path.join(__dirname, '../images/' +filename, aaa);
+    fs.exists(imagePath, function (exists) {
+      if (exists) {
+        res.sendFile(imagePath);
+      } else {
+        res.status(404).send('Resim bulunamadı');
+      }
+    });
   });
-  
+
   // Delete user
   router.delete("/:id", adminAuthMiddleware, async (req, res) => {
     const { id } = req.params;
@@ -364,3 +450,38 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
     res.status(409).json("User has book.");
   });
   
+ // Update user profile picture link
+ router.patch("/photo/:userEmail", adminAuthMiddleware, async (req,res) => {
+    const { userEmail } = req.params;
+    console.log(userEmail)
+    console.log(typeof(userEmail))
+    const folderName = "users"
+    const testingme = createUploadFunction(folderName,userEmail)
+    const upload = multer({ storage: testingme });
+    console.log(1)
+    try{
+    // Fotoğraf yükleme fonksiyonu
+    console.log(2);
+        const uploadSingle = upload.single('image');
+        uploadSingle(req, res, (err) => {
+            if (err) {
+                return res.status(500).send(err.message);
+            }
+            if (!req.file) {
+                return res.status(400).send('No file uploaded.');
+            }
+            
+        });
+        const for_db = "images" + "/" + folderName + "/" + userEmail  ;
+        
+                await db.query(
+                    "UPDATE users SET photo = ($1::VARCHAR) ,photo_type = ($2::VARCHAR)   WHERE email = ($3::VARCHAR) ;",
+                    [for_db,"jpg",userEmail],
+                  );res.send(`File uploaded successfully: ${req.file.filename}`);
+    } catch (err) {
+        console.error(err);
+        res
+        .status(500)
+        .json({ error: "An error occurred while updating the user." });
+    }
+    });
