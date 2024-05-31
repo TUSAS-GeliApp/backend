@@ -11,6 +11,12 @@ const {
   uploadVideo,
 } = require("../Middleware/upload/uploadMiddleware");
 const fs = require("fs");
+const multer = require('multer');
+const path = require('path');
+const express = require('express');
+const createUploadFunction  = require('../image');
+const createdownloadFunction = require('../image');
+const deleteFile = require('../image');
 
 module.exports = router;
 
@@ -209,7 +215,6 @@ router.post("/program_user", adminAuthMiddleware, async (req, res) => {
 router.delete("/:id/user", adminAuthMiddleware, async (req, res) => {
     const { id } = req.params;
     const { user_id } = req.body;
-    console.log(1);
     try{
         const { rows } = await db.query(
             "SELECT * FROM program_user WHERE program_id = $1 and user_id = $2 ",
@@ -235,3 +240,77 @@ router.delete("/:id/user", adminAuthMiddleware, async (req, res) => {
           };
     }
 });
+
+
+ // Update program cover picture 
+ router.patch("/:eventName", adminAuthMiddleware, async (req,res) => {
+  
+   
+    const { eventName } = req.params;
+
+    const testingme = createUploadFunction("program",eventName)
+    const upload = multer({ storage: testingme });
+    try{
+    // Fotoğraf yükleme fonksiyonu
+        const uploadSingle = upload.single('image');
+        uploadSingle(req, res, (err) => {
+            if (err) {
+                return res.status(500).send(err.message);
+            }
+            if (!req.file) {
+                return res.status(400).send('No file uploaded.');
+            }
+            
+        });
+        const for_db = "images" + "/" + "program" + "/" + eventName  ;
+                await db.query(
+                    "UPDATE program SET image_path = ($1::VARCHAR)   WHERE name = ($2::VARCHAR) ;",
+                    [for_db,eventName],
+                  );res.send(`File uploaded successfully: `);
+    } catch (err) {
+        console.error(err);
+        res
+        .status(500)
+        .json({ error: "An error occurred while updating the user." });
+    }
+    });
+
+
+//delete image
+router.delete("/pp/:eventName", adminAuthMiddleware, async (req, res) => {
+        const { eventName } = req.params;
+        
+
+        const emptyPhoto = "/images/emptyPhotos/whiteScreen.jpg"
+        try{
+            
+            await db.query(
+                "UPDATE program SET image_path = ($1::VARCHAR)   WHERE name = ($2::VARCHAR) ;",
+                [emptyPhoto,eventName],
+               
+              );res.send(`Photo deleted successfully`);
+
+              deleteFile("programs", email);
+        } catch (err) {
+            console.error(err);
+            res
+            .status(500)
+            .json({ error: "An error occurred while updating the user." });
+        }
+    });
+
+
+//get image
+router.get('/photo/:eventName',adminAuthMiddleware,async (req, res) => {
+    const eventName = req.params.eventName;
+    const filename = "program"
+    const aaa = eventName + ".jpg" ;
+    const imagePath = path.join(__dirname, '../images/' +filename, aaa);
+    fs.exists(imagePath, function (exists) {
+      if (exists) {
+        res.sendFile(imagePath);
+      } else {
+        res.status(404).send('Resim bulunamadı');
+      }
+    });
+  });

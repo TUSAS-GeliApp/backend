@@ -11,7 +11,12 @@ const {
   uploadVideo,
 } = require("../Middleware/upload/uploadMiddleware");
 const fs = require("fs");
-
+const multer = require('multer');
+const path = require('path');
+const express = require('express');
+const createUploadFunction  = require('../image');
+const createdownloadFunction = require('../image');
+const deleteFile = require('../image');
 module.exports = router;
 
 // Get all events
@@ -213,3 +218,75 @@ router.delete("/:id/user", adminAuthMiddleware, async (req, res) => {
           };
     }
 });
+
+
+  // update podcast cover image
+  router.patch("/:eventName", adminAuthMiddleware, async (req,res) => {
+  
+   
+    const { eventName } = req.params;
+    const testingme = createUploadFunction("event",eventName)
+    const upload = multer({ storage: testingme });
+    try{
+    // Fotoğraf yükleme fonksiyonu
+        const uploadSingle = upload.single('image');
+        uploadSingle(req, res, (err) => {
+            if (err) {
+                return res.status(500).send(err.message);
+            }
+            if (!req.file) {
+                return res.status(400).send('No file uploaded.');
+            }
+            
+        });
+        const for_db = "images" + "/" + "event" + "/" + eventName  ;
+
+                await db.query(
+                    "UPDATE events SET image_path = ($1::VARCHAR)   WHERE name = ($2::VARCHAR) ;",
+                    [for_db,eventName],
+                  );res.send(`File uploaded successfully: `);
+    } catch (err) {
+        console.error(err);
+        res
+        .status(500)
+        .json({ error: "An error occurred while updating the user." });
+    }
+    });
+
+
+//delete image
+router.delete("/photo/:eventName", adminAuthMiddleware, async (req, res) => {
+        const { eventName } = req.params;
+        const emptyPhoto = "/images/emptyPhotos/whiteScreen.jpg"
+        try{
+            
+            await db.query(
+                "UPDATE events SET image_path = ($1::VARCHAR)   WHERE name = ($2::VARCHAR) ;",
+                [emptyPhoto,eventName],
+               
+              );res.send(`Photo deleted successfully`);
+
+              deleteFile("event", eventName);
+        } catch (err) {
+            console.error(err);
+            res
+            .status(500)
+            .json({ error: "An error occurred while updating the user." });
+        }
+    });
+
+
+//get image
+router.get('/photo/:eventName',adminAuthMiddleware,async (req, res) => {
+    const eventName = req.params.eventName;
+    const filename = "event";
+    const aaa = eventName + ".jpg" ;
+    const imagePath = path.join(__dirname, '../images/' +filename, aaa);
+    fs.exists(imagePath, function (exists) {
+      if (exists) {
+        res.sendFile(imagePath);
+      } else {
+        res.status(404).send('Resim bulunamadı');
+      }
+    });
+  });

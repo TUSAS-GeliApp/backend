@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
                 logged_in: true,
               },
               process.env.ACCES_TOKEN_SECRET,
-              { expiresIn: "15min" }
+              { expiresIn: "60min" }
             );
     
             const refreshToken = jwt.sign(
@@ -88,7 +88,7 @@ router.post("/", async (req, res) => {
                   logged_in: true,
                 },
                 process.env.ACCES_TOKEN_SECRET,
-                { expiresIn: "15min" }
+                { expiresIn: "60min" }
               );
               const refreshToken = jwt.sign(
                 { user_id: userInfo.user_id, email: userInfo.email, admin: false },
@@ -169,7 +169,7 @@ router.post("/", async (req, res) => {
                 logged_in: false,
               },
               process.env.ACCES_TOKEN_SECRET,
-              { expiresIn: "15m" }
+              { expiresIn: "60m" }
             );
             return res.status(200).json({ accesToken: accesToken });
           } else {
@@ -238,7 +238,7 @@ router.post("/sign_up", async (req, res) => {
                   logged_in: true,
                 },
                 process.env.ACCES_TOKEN_SECRET,
-                { expiresIn: "15min" }
+                { expiresIn: "60min" }
               );
       
               const refreshToken = jwt.sign(
