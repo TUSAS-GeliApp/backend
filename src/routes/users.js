@@ -221,6 +221,15 @@ router.get("/all_list", authMiddleware, async (req, res) => {
     );
     res.status(200).json(rows);
   });
+
+  router.get("/admin_users", adminAuthMiddleware, async (req, res) => {
+   
+    const { rows } = await db.query(
+      "SELECT * FROM users ",
+      []
+    );
+    res.status(200).json(rows);
+  });
   
 // Get user information for admin
 router.get("/:id", adminAuthMiddleware, async (req, res) => {
@@ -235,7 +244,6 @@ router.get("/:id", adminAuthMiddleware, async (req, res) => {
 
   // Add new user
 router.post("/", adminAuthMiddleware, async (req, res) => {
-    const { admin_id } = req.tokenPayload;
     
     const {
       name,
@@ -293,8 +301,7 @@ router.post("/", adminAuthMiddleware, async (req, res) => {
             facebook,
 
           ],
-          admin_id,
-          true
+         
         );
         console.log(name)
 
@@ -429,6 +436,8 @@ router.get('/photo/:filename',authMiddleware,async (req, res) => {
       }
     });
   });
+
+
 
   // Delete user
   router.delete("/:id", adminAuthMiddleware, async (req, res) => {

@@ -79,8 +79,6 @@ router.post("/:id", adminAuthMiddleware, async (req, res) => {
     await db.query(
       "INSERT INTO notification (message, user_id) VALUES ($1::TEXT, $2::INTEGER);",
       [message, id],
-      req.tokenPayload.admin_id,
-      true
     );
     res.status(200).json({ message: "Notification added successfully." });
   } catch (err) {
