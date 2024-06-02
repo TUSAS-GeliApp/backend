@@ -11,11 +11,13 @@ module.exports = router;
 // Get the user notifications
 router.get("/", authMiddleware, async (req, res) => {
   const { user_id } = req.tokenPayload;
+  console.log(user_id);
+
   if (req.tokenPayload.admin) {
     return res.status(403).json({ message: "Invalid token" });
   }
   const { rows } = await db.query(
-    "SELECT message, created_at FROM notifications WHERE user_id = $1::INTEGER",
+    "SELECT message, created_at FROM notification WHERE user_id = $1::INTEGER",
     [user_id]
   );
   res.status(200).json(rows);
@@ -31,7 +33,7 @@ router.patch("/", authMiddleware, async (req, res) => {
   }
   try {
     await db.query(
-      "UPDATE notifications SET is_read = $1::BOOLEAN WHERE id = $2::INTEGER AND user_id = $3::INTEGER",
+      "UPDATE notification SET is_read = $1::BOOLEAN WHERE id = $2::INTEGER AND user_id = $3::INTEGER",
       [isRead, notification_id, user_id],
       user_id,
       false
@@ -55,7 +57,7 @@ router.delete("/", authMiddleware, async (req, res) => {
   }
   try {
     await db.query(
-      "DELETE FROM notifications WHERE id = $1::INTEGER AND user_id = $2::INTEGER",
+      "DELETE FROM notification WHERE id = $1::INTEGER AND user_id = $2::INTEGER",
       [notification_id, user_id],
       user_id,
       false
@@ -75,7 +77,7 @@ router.post("/:id", adminAuthMiddleware, async (req, res) => {
   const { message } = req.body;
   try {
     await db.query(
-      "INSERT INTO notifications (message, user_id) VALUES ($1::TEXT, $2::INTEGER);",
+      "INSERT INTO notification (message, user_id) VALUES ($1::TEXT, $2::INTEGER);",
       [message, id],
       req.tokenPayload.admin_id,
       true

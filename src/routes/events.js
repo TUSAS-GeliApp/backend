@@ -39,7 +39,7 @@ router.get("/tum_etkinlikler", authMiddleware, async (req, res) => {
 
     for (const event of events) {
       const participantsQuery = await db.query(
-        "SELECT DISTINCT u.user_id, u.name, u.surname, u.job, u.instagram, u.twitter, u.linkedin, u.facebook FROM users AS u INNER JOIN event_user AS eu ON u.user_id = eu.user_id WHERE eu.event_id = $1",
+        "SELECT DISTINCT u.user_id, u.name, u.surname, u.job,u.photo, u.instagram, u.twitter, u.linkedin, u.facebook FROM users AS u INNER JOIN event_user AS eu ON u.user_id = eu.user_id WHERE eu.event_id = $1",
         [event.event_id]
       );
 
@@ -47,7 +47,8 @@ router.get("/tum_etkinlikler", authMiddleware, async (req, res) => {
         id: user.user_id,
         name: user.name,
         surname: user.surname,
-        info: [user.job, user.instagram, user.twitter, user.linkedin, user.facebook].join(", ")
+        info: [user.job, user.instagram, user.twitter, user.linkedin, user.facebook].join(", "),
+        photo: user.photo
       }));
 
       formattedEvents.push({
@@ -290,3 +291,18 @@ router.get('/photo/:eventName',adminAuthMiddleware,async (req, res) => {
       }
     });
   });
+//get image for user
+router.get('/photos/:eventName', authMiddleware,async (req, res) => {
+  const eventName = req.params.eventName;
+  const filename = "events";
+  const aaa = eventName + ".jpg" ;
+  const imagePath = path.join(__dirname, '../images/',filename , aaa);
+  console.log(imagePath)
+  fs.exists(imagePath, function (exists) {
+    if (exists) {
+      res.sendFile(imagePath);
+    } else {
+      res.status(404).send('Resim bulunamadı');
+    }
+  });
+});
