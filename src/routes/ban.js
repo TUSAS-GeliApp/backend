@@ -25,7 +25,6 @@ router.post("/:id", adminAuthMiddleware, async (req, res) => {
       await db.query(
         "UPDATE users  SET is_banned = ($1::BOOLEAN) where user_id = ($2::INTEGER) ",
             [true,id],
-        req.tokenPayload.admin_id,
         
       );
       res.status(200).json({ user_id: id });
@@ -52,7 +51,6 @@ router.patch("/:id/unban", adminAuthMiddleware, async (req, res) => {
         await db.query(
             "UPDATE users  SET is_banned = ($1::BOOLEAN) where user_id = ($2::INTEGER) ",
             [false,id],
-            req.tokenPayload.admin_id,
             
           );
       res.status(200).json({ user_id: id });

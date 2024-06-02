@@ -2,6 +2,13 @@ const Router = require("express-promise-router");
 const db = require("../db");
 const router = new Router();
 const bcrypt = require("bcrypt");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const express = require('express');
+const createUploadFunction  = require('../image');
+const createdownloadFunction = require('../image');
+const deleteFile = require('../image');
 const {
   adminAuthMiddleware,
   adminAndLoggedAuthMiddleware,
@@ -74,3 +81,25 @@ router.patch("/", adminAuthMiddleware, async (req, res) => {
       .json({ error: "An error occurred while updating the admin." });
   }
 });
+
+router.get('/photo/:email',adminAuthMiddleware,async (req, res) => {
+    const { email } = req.params;
+    const { rows } = await db.query(
+        "SELECT photo_type FROM users Where email = $1",
+        [email]
+      );   
+
+   
+    const jsonString = JSON.stringify(rows);
+
+    photo_type = jsonString.split(":")[1].split("\"")[1];
+    const aaa = email + "."+photo_type ;
+    const imagePath = path.join(__dirname, '../images/' +"users", aaa);
+    fs.exists(imagePath, function (exists) {
+      if (exists) {
+        res.sendFile(imagePath);
+      } else {
+        res.status(404).send('Resim bulunamadı');
+      }
+    });
+  });

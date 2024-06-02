@@ -26,6 +26,68 @@ router.get("/all_program", authMiddleware, async (req, res) => {
     res.status(200).json(rows);
   });
 
+  router.get("/admin_program", adminAuthMiddleware, async (req, res) => {
+    const { rows } = await db.query("SELECT * FROM program");
+    res.status(200).json(rows);
+  });
+ router.get("/admin_program/:program_id", adminAuthMiddleware, async (req, res) => {
+    const { program_id } = req.params;
+
+    const { rows } = await db.query("SELECT * FROM program WHERE program_id =$1",
+    [program_id]);
+    res.status(200).json(rows);
+  });
+
+  router.post("/:id/active", adminAuthMiddleware, async (req, res) => {
+    const { id } = req.params;
+   
+    try {
+      // Check if user with the given id_number is already banned
+      const { rows } = await db.query(
+        "SELECT * FROM program WHERE program_id = $1",
+        [id]
+      );
+  
+     
+        await db.query(
+          "UPDATE program  SET is_active = ($1::BOOLEAN) where program_id = ($2::INTEGER) ",
+              [true,id],
+          
+        );
+        res.status(200).json({ user_id: id });
+      
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ error: "An error occurred while banning the user." });
+    }
+  });
+  
+  // Unban an user
+  router.patch("/:id/deactive", adminAuthMiddleware, async (req, res) => {
+    const { id } = req.params;
+    try {
+      // Check if user with the given id_number is banned
+      const { rows } = await db.query(
+        "SELECT * FROM program WHERE program_id = $1",
+        [id]
+      );
+     
+          await db.query(
+            "UPDATE program  SET is_active = ($1::BOOLEAN) where program_id = ($2::INTEGER) ",
+              [false,id],
+              
+            );
+        res.status(200).json({ user_id: id });
+      
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ error: "An error occurred while unbanning the user." });
+    }
+  });
 // Tüm program konuşmacılarını al
 router.get("/all_program_speaker", authMiddleware, async (req, res) => {
   const { rows } = await db.query(`
@@ -46,6 +108,33 @@ router.get("/all_program_user", authMiddleware, async (req, res) => {
   res.status(200).json(rows);
 });
 
+// Tüm program kullanıcılarını al
+router.get("/all_program_user_admin/:program_id", adminAuthMiddleware, async (req, res) => {
+    const { program_id } = req.params;
+
+    const { rows } = await db.query(`
+    SELECT users.user_id, users.name, users.surname, users.email
+    FROM users
+    JOIN program_user ON users.user_id = program_user.user_id
+    WHERE program_user.program_id = $1;`,
+    [program_id]);
+    res.status(200).json(rows);
+  });
+  
+
+
+router.get("/admin_users_with_program/:id", adminAuthMiddleware, async (req, res) => {
+    const { id } = req.params;
+
+    const { rows } = await db.query(`
+    SELECT program.name
+    FROM program
+    JOIN program_user ON program.program_id = program_user.program_id
+    WHERE program_user.user_id = $1;
+    `,[id]);
+    res.status(200).json(rows);
+  });
+  
 
 // Add new program 
 router.post("/add_program", adminAuthMiddleware, async (req, res) => {
@@ -226,7 +315,7 @@ router.delete("/:id/user", adminAuthMiddleware, async (req, res) => {
                 [id , user_id]
               );
               res
-                  .status(409)
+                  .status(200)
                   .json({ error: "Successfully deleted user." })
         
         }
